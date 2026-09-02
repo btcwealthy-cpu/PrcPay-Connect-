@@ -1,0 +1,26 @@
+services:
+  api:
+    image: node:22-slim
+    working_dir: /app/server
+    command: sh -c "npm install && node index.js"
+    volumes:
+      - ./:/app
+      - server_data:/data
+    environment:
+      - JWT_SECRET=prcchat-dev-secret-change-me
+    restart: unless-stopped
+
+  web:
+    image: node:22-slim
+    working_dir: /app/client
+    command: sh -c "npm install && npx vite --host 0.0.0.0 --port 5173"
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:5173"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  server_data:
