@@ -8,6 +8,8 @@ services:
       - server_data:/data
     environment:
       - JWT_SECRET=prcchat-dev-secret-change-me
+    env_file:
+      - /run/base44/app.env
     restart: unless-stopped
 
   web:
